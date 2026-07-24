@@ -26,6 +26,7 @@
   --color-grass: var(--color-grass);
   --font-heading: var(--font-baloo);
   --font-body: var(--font-nunito);
+  --font-logo: var(--font-fredoka);
 }
 
 body {

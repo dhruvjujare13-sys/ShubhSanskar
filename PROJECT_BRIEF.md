@@ -1,16 +1,16 @@
-# Bright Beginnings Tutoring — Project Brief
+# ShubhSanskar — Project Brief
 
 ## The core idea
 
-Shubhada is starting an online tutoring business teaching **Hindi and Marathi**, starting from the very basics — letters, then barakhadi, then reading/writing more — plus **Math**. It's open to anyone, Indian or not; the whole point is to be welcoming to non-Indian families too, which is why the business name deliberately avoids Hindi/Sanskrit words (see Branding below).
+Shubhada is starting an online tutoring business teaching **Hindi and Marathi**, starting from the very basics — letters, then barakhadi, then reading/writing more — plus **Math**. It's open to anyone, Indian or not.
 
 This started as a simple static marketing page (in the same spirit as an earlier project called Meridian) but grew into a real product: a kid-friendly, interactive site with **three separate logged-in dashboards** — one for the teacher, one for parents, and one for the kids themselves.
 
 ## Branding
 
-- **Name: undecided, currently a placeholder** ("Bright Beginnings Tutoring"), swappable in `lib/siteConfig.ts`.
-- Several "Shubh + ___" name ideas were explored (playing on the teacher's name, Shubhada) and explicitly rejected — the business wants to welcome non-Indian families, so the name shouldn't lean on an Indian-language word as its hook.
-- A second round of plain-English names ("Bright Beginnings," "Two Tongues," "Learning Ladder," "Language Bridge") also didn't land on a final pick — placeholder text stands in until a name is chosen. It touches exactly one file (`lib/siteConfig.ts`).
+- **Name: ShubhSanskar** — set in `lib/siteConfig.ts` (`businessName`), the one place it needs to change if it's ever renamed again.
+- Naming went through several rounds first: "Shubh + ___" ideas playing on the teacher's name were tried, then rejected in favor of plain-English options to stay welcoming to non-Indian families, before landing back on an Indian-language name (ShubhSanskar — "sanskar" roughly meaning values/upbringing) as the final pick.
+- **Logo:** a custom inline SVG (`components/Logo.tsx`) — a rising sun over an open book in the site's marigold/plum colors, stacked above the wordmark. The wordmark uses a separate display font (Fredoka, `--font-logo`) distinct from the site's Baloo 2 headings, so the logo reads as a mark rather than blending into body copy.
 - Phone: **+1 (407) 234-8117**, used for both a `tel:` link and a WhatsApp click-to-chat link throughout the site.
 - Pricing: not yet decided, shown as "contact us for current pricing" — see `pricingNote` in `lib/siteConfig.ts`.
 
@@ -52,10 +52,10 @@ Students aren't Supabase Auth users — they have no email. Logging in with just
 
 ## Open items / not yet done
 
-- [ ] Final business name (currently placeholder text in `lib/siteConfig.ts`)
+- [x] Final business name — ShubhSanskar
 - [ ] Real pricing (currently "contact us" placeholder)
-- [ ] Create Shubhada's teacher account and promote it to `role = teacher` in Supabase (manual, one-time — see README)
-- [ ] Set up the actual Supabase project and paste the real keys into `.env.local` (nothing runs against a real database until this is done)
+- [x] Create Shubhada's teacher account and promote it to `role = teacher` in Supabase
+- [x] Set up the actual Supabase project and paste the real keys into `.env.local`
 - [ ] Audio pronunciation for the letter practice game
 - [ ] A way for the teacher to add/edit practice game content herself, instead of editing `data/practiceContent.ts` directly
 - [ ] Deploy live on Vercel

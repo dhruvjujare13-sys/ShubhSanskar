@@ -2,7 +2,7 @@
 // Swap these once real values are decided — nothing else needs to change.
 
 export const siteConfig = {
-  businessName: "Bright Beginnings Tutoring",
+  businessName: "ShubhSanskar",
   tagline: "Hindi, Marathi & Math tutoring for curious kids, online, from the very first letter.",
   teacherName: "Shubhada",
   phoneDisplay: "+1 (407) 234-8117",

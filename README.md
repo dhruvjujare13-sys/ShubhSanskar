@@ -1,8 +1,8 @@
-# Bright Beginnings Tutoring
+# ShubhSanskar
 
 An interactive, kid-friendly website for an online Hindi, Marathi & math tutoring business, with three logged-in dashboards: **Teacher** (Shubhada), **Parent**, and **Student**.
 
-Business name is a placeholder — see `lib/siteConfig.ts` to change it (and `PROJECT_BRIEF.md` for the full decisions log).
+Business name and pricing are swappable in `lib/siteConfig.ts` (see `PROJECT_BRIEF.md` for the full decisions log).
 
 ## Tech stack
 

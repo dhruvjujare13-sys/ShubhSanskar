@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Baloo_2, Nunito } from "next/font/google";
+import { Baloo_2, Nunito, Fredoka } from "next/font/google";
 import "./globals.css";
 import { siteConfig } from "@/lib/siteConfig";
 
@@ -14,6 +14,12 @@ const nunito = Nunito({
   subsets: ["latin"],
 });
 
+const fredoka = Fredoka({
+  variable: "--font-fredoka",
+  subsets: ["latin"],
+  weight: ["500", "600", "700"],
+});
+
 export const metadata: Metadata = {
   title: `${siteConfig.businessName} | Hindi, Marathi & Math Tutoring`,
   description: siteConfig.tagline,
@@ -25,7 +31,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${baloo.variable} ${nunito.variable} h-full antialiased`}>
+    <html lang="en" className={`${baloo.variable} ${nunito.variable} ${fredoka.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col">{children}</body>
     </html>
   );
