@@ -1,0 +1,39 @@
+@import "tailwindcss";
+
+:root {
+  --color-marigold: #f5a623;
+  --color-marigold-dark: #d98c0f;
+  --color-teal: #2fb6a5;
+  --color-teal-dark: #23897c;
+  --color-plum: #4a2545;
+  --color-sunny: #fff6e0;
+  --color-blush: #ffe3d1;
+  --color-slate: #5b5563;
+  --color-sky: #4fa8e0;
+  --color-grass: #6fbf73;
+}
+
+@theme inline {
+  --color-marigold: var(--color-marigold);
+  --color-marigold-dark: var(--color-marigold-dark);
+  --color-teal: var(--color-teal);
+  --color-teal-dark: var(--color-teal-dark);
+  --color-plum: var(--color-plum);
+  --color-sunny: var(--color-sunny);
+  --color-blush: var(--color-blush);
+  --color-slate: var(--color-slate);
+  --color-sky: var(--color-sky);
+  --color-grass: var(--color-grass);
+  --font-heading: var(--font-baloo);
+  --font-body: var(--font-nunito);
+}
+
+body {
+  background: var(--color-sunny);
+  color: var(--color-plum);
+  font-family: var(--font-body), Arial, Helvetica, sans-serif;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-heading), var(--font-body), sans-serif;
+}
