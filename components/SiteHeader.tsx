@@ -10,9 +10,6 @@ export default function SiteHeader() {
           <Link href="/#subjects" className="hover:text-teal">
             What We Teach
           </Link>
-          <Link href="/#how-it-works" className="hover:text-teal">
-            How It Works
-          </Link>
           <Link href="/#contact" className="hover:text-teal">
             Contact
           </Link>

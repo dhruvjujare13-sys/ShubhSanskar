@@ -1,36 +1,31 @@
 import Link from "next/link";
 import SiteHeader from "@/components/SiteHeader";
 import SiteFooter from "@/components/SiteFooter";
-import LetterFlipGame from "@/components/practice/LetterFlipGame";
 import ClassroomIllustration from "@/components/ClassroomIllustration";
 import { siteConfig } from "@/lib/siteConfig";
 
 const SUBJECT_CARDS = [
   {
     title: "Hindi",
+    slug: "hindi",
     color: "bg-marigold",
-    blurb: "From the very first letters, through barakhadi, to reading and writing simple words and sentences.",
+    blurb: "From the beginning letters to writing and being able to read.",
     emoji: "📖",
   },
   {
     title: "Marathi",
+    slug: "marathi",
     color: "bg-teal",
-    blurb: "The same step-by-step path of letters, barakhadi, and beyond, for Marathi.",
+    blurb: "From the beginning letters to writing and being able to read.",
     emoji: "✍️",
   },
   {
     title: "Math",
+    slug: "math",
     color: "bg-sky",
-    blurb: "Counting, numbers, and early math skills, taught alongside language lessons.",
+    blurb: "K-12 classes, test prep.",
     emoji: "🔢",
   },
-];
-
-const STEPS = [
-  { title: "Letters", desc: "Learn to recognize and say each letter." },
-  { title: "Barakhadi", desc: "Combine letters into their full sound families." },
-  { title: "Words", desc: "Read and write simple, everyday words." },
-  { title: "Reading & math", desc: "Build up to sentences, stories, and number skills." },
 ];
 
 export default function HomePage() {
@@ -88,35 +83,14 @@ export default function HomePage() {
                 </div>
                 <h3 className="font-heading text-xl font-bold text-plum">{card.title}</h3>
                 <p className="mt-2 text-sm text-slate">{card.blurb}</p>
+                <Link
+                  href={`/learn/${card.slug}`}
+                  className="mt-4 inline-block rounded-full border-2 border-plum px-4 py-1.5 text-sm font-heading font-bold text-plum hover:bg-plum hover:text-white"
+                >
+                  Click to Learn More
+                </Link>
               </div>
             ))}
-          </div>
-        </section>
-
-        {/* How it works */}
-        <section id="how-it-works" className="px-4 py-14">
-          <h2 className="mb-8 text-center font-heading text-3xl text-plum">How Lessons Progress</h2>
-          <div className="mx-auto grid max-w-5xl gap-4 sm:grid-cols-4">
-            {STEPS.map((step, i) => (
-              <div key={step.title} className="rounded-2xl bg-white p-5 text-center shadow border-2 border-teal/20">
-                <div className="mx-auto mb-2 flex h-10 w-10 items-center justify-center rounded-full bg-teal font-heading font-bold text-white">
-                  {i + 1}
-                </div>
-                <p className="font-heading font-bold text-plum">{step.title}</p>
-                <p className="mt-1 text-sm text-slate">{step.desc}</p>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        {/* Try it now */}
-        <section className="bg-marigold/5 px-4 py-14">
-          <div className="mx-auto max-w-3xl rounded-3xl border-4 border-marigold bg-sunny/40 p-6 text-center">
-            <h2 className="font-heading text-2xl text-plum mb-2">Try it yourself!</h2>
-            <p className="mb-4 text-slate">
-              This is a peek at what students play with on their dashboard. Tap a letter below.
-            </p>
-            <LetterFlipGame />
           </div>
         </section>
 
