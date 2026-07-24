@@ -53,7 +53,7 @@ export default async function TeacherDashboardPage() {
 
         {(!students || students.length === 0) && (
           <p className="rounded-2xl bg-white p-6 text-slate shadow border-2 border-marigold/30">
-            No students yet — once a parent signs up and adds their child, they&apos;ll show up here.
+            No students yet. Once a parent signs up and adds their child, they&apos;ll show up here.
           </p>
         )}
 

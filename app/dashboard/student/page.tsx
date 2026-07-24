@@ -62,7 +62,7 @@ export default async function StudentDashboardPage() {
   const todaysLesson =
     openAssignments[0]?.title ??
     [...latestBySubject.values()].find((p) => p.status === "in_progress")?.topic ??
-    "Free practice time — try a game below!";
+    "Free practice time! Try a game below.";
 
   return (
     <div className="flex min-h-screen flex-col bg-gradient-to-b from-sky/10 to-sunny">
@@ -88,7 +88,7 @@ export default async function StudentDashboardPage() {
             <div key={value} className="rounded-2xl bg-white p-4 text-center shadow border-2 border-marigold/20">
               <p className="font-heading font-bold text-plum">{label}</p>
               <p className="mt-1 text-2xl" title={`${masteredCountBySubject.get(value) ?? 0} mastered`}>
-                {"⭐".repeat(Math.min(masteredCountBySubject.get(value) ?? 0, 5)) || "—"}
+                {"⭐".repeat(Math.min(masteredCountBySubject.get(value) ?? 0, 5)) || "☆"}
               </p>
             </div>
           ))}

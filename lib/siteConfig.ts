@@ -3,7 +3,7 @@
 
 export const siteConfig = {
   businessName: "ShubhSanskar",
-  tagline: "Hindi, Marathi & Math tutoring for curious kids, online, from the very first letter.",
+  tagline: "Friendly online tutoring for curious kids, one lesson at a time.",
   teacherName: "Shubhada",
   phoneDisplay: "+1 (407) 234-8117",
   phoneWhatsApp: "14072348117", // digits only, for wa.me links

@@ -55,7 +55,7 @@ export async function addChild(_prevState: ActionState, formData: FormData): Pro
 
   if (error) {
     if (error.code === "23505") {
-      return { error: "That username is taken — try another one." };
+      return { error: "That username is taken. Try another one." };
     }
     return { error: "Couldn't add your child. Please try again." };
   }
@@ -80,7 +80,7 @@ export async function updateChild(_prevState: ActionState, formData: FormData): 
   const subjects = formData.getAll("subjects").map(String).filter((s): s is Subject => SUBJECT_VALUES.has(s as Subject));
 
   if (!studentId || !fullName) {
-    return { error: "Something went wrong — please try again." };
+    return { error: "Something went wrong. Please try again." };
   }
   if (subjects.length === 0) {
     return { error: "Pick at least one subject for your child to learn." };

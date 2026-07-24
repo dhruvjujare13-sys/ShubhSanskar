@@ -55,7 +55,7 @@ export default function StudentCard({
           <ConfirmDeleteForm
             action={deleteStudent}
             hiddenFields={{ studentId: student.id }}
-            confirmMessage={`Remove ${student.full_name}? This deletes their login and all their progress — this can't be undone.`}
+            confirmMessage={`Remove ${student.full_name}? This deletes their login and all their progress, and can't be undone.`}
             label="Remove"
           />
         </div>

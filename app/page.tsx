@@ -2,6 +2,7 @@ import Link from "next/link";
 import SiteHeader from "@/components/SiteHeader";
 import SiteFooter from "@/components/SiteFooter";
 import LetterFlipGame from "@/components/practice/LetterFlipGame";
+import ClassroomIllustration from "@/components/ClassroomIllustration";
 import { siteConfig } from "@/lib/siteConfig";
 
 const SUBJECT_CARDS = [
@@ -14,7 +15,7 @@ const SUBJECT_CARDS = [
   {
     title: "Marathi",
     color: "bg-teal",
-    blurb: "The same step-by-step path — letters, barakhadi, and beyond — for Marathi.",
+    blurb: "The same step-by-step path of letters, barakhadi, and beyond, for Marathi.",
     emoji: "✍️",
   },
   {
@@ -38,24 +39,29 @@ export default function HomePage() {
       <SiteHeader />
       <main className="flex-1">
         {/* Hero */}
-        <section className="bg-gradient-to-b from-sunny to-white px-4 py-16 text-center">
-          <h1 className="mx-auto max-w-2xl font-heading text-4xl font-bold text-plum sm:text-5xl">
-            Learn Hindi, Marathi & Math — one letter at a time.
-          </h1>
-          <p className="mx-auto mt-4 max-w-xl text-lg text-slate">{siteConfig.tagline}</p>
-          <div className="mt-8 flex flex-wrap justify-center gap-4">
-            <Link
-              href="/signup"
-              className="rounded-full bg-marigold px-6 py-3 font-heading text-lg font-bold text-white shadow-md hover:bg-marigold-dark"
-            >
-              Sign Up as a Parent
-            </Link>
-            <Link
-              href="/student-login"
-              className="rounded-full bg-teal px-6 py-3 font-heading text-lg font-bold text-white shadow-md hover:bg-teal-dark"
-            >
-              I&apos;m a Student
-            </Link>
+        <section className="bg-gradient-to-b from-sunny via-sunny to-blush/20 px-4 py-16">
+          <div className="mx-auto grid max-w-5xl items-center gap-10 lg:grid-cols-2">
+            <div className="text-center lg:text-left">
+              <h1 className="font-heading text-4xl font-bold text-plum sm:text-5xl">
+                A Bright Start to Lifelong Learning
+              </h1>
+              <p className="mx-auto mt-4 max-w-xl text-lg text-slate lg:mx-0">{siteConfig.tagline}</p>
+              <div className="mt-8 flex flex-wrap justify-center gap-4 lg:justify-start">
+                <Link
+                  href="/signup"
+                  className="rounded-full bg-marigold px-6 py-3 font-heading text-lg font-bold text-white shadow-md hover:bg-marigold-dark"
+                >
+                  Sign Up as a Parent
+                </Link>
+                <Link
+                  href="/student-login"
+                  className="rounded-full bg-teal px-6 py-3 font-heading text-lg font-bold text-white shadow-md hover:bg-teal-dark"
+                >
+                  I&apos;m a Student
+                </Link>
+              </div>
+            </div>
+            <ClassroomIllustration className="mx-auto w-full max-w-md" />
           </div>
         </section>
 
@@ -63,14 +69,13 @@ export default function HomePage() {
         <section className="mx-auto max-w-3xl px-4 py-14 text-center">
           <h2 className="font-heading text-3xl text-plum mb-3">Meet {siteConfig.teacherName}</h2>
           <p className="text-slate">
-            {siteConfig.teacherName} teaches Hindi and Marathi from the very basics — starting with letters and
-            barakhadi — plus math, all online. Lessons welcome everyone, Indian or not, beginner or returning
-            learner.
+            {siteConfig.teacherName} teaches Hindi and Marathi from the very basics, starting with letters and
+            barakhadi, plus math, all online. Lessons welcome everyone, beginner or returning learner.
           </p>
         </section>
 
         {/* Subjects */}
-        <section id="subjects" className="bg-white px-4 py-14">
+        <section id="subjects" className="bg-teal/5 px-4 py-14">
           <h2 className="mb-8 text-center font-heading text-3xl text-plum">What We Teach</h2>
           <div className="mx-auto grid max-w-5xl gap-6 sm:grid-cols-3">
             {SUBJECT_CARDS.map((card) => (
@@ -105,11 +110,11 @@ export default function HomePage() {
         </section>
 
         {/* Try it now */}
-        <section className="bg-white px-4 py-14">
+        <section className="bg-marigold/5 px-4 py-14">
           <div className="mx-auto max-w-3xl rounded-3xl border-4 border-marigold bg-sunny/40 p-6 text-center">
             <h2 className="font-heading text-2xl text-plum mb-2">Try it yourself!</h2>
             <p className="mb-4 text-slate">
-              This is a peek at what students play with on their dashboard — tap a letter below.
+              This is a peek at what students play with on their dashboard. Tap a letter below.
             </p>
             <LetterFlipGame />
           </div>

@@ -54,7 +54,7 @@ export default function MasteryCelebration({
             <p className="text-5xl">🏆</p>
             <h2 className="mt-2 font-heading text-2xl text-plum">You mastered it!</h2>
             <p className="mt-1 text-slate">
-              {toCelebrate.map((m) => m.topic).join(", ")} — amazing work!
+              {toCelebrate.map((m) => m.topic).join(", ")}. Amazing work!
             </p>
             <button
               type="button"

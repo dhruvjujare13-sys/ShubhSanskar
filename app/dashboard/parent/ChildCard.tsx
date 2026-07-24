@@ -50,7 +50,7 @@ export default function ChildCard({
           <ConfirmDeleteForm
             action={deleteChild}
             hiddenFields={{ studentId: student.id }}
-            confirmMessage={`Remove ${student.full_name}? This deletes their login and all their progress — this can't be undone.`}
+            confirmMessage={`Remove ${student.full_name}? This deletes their login and all their progress, and can't be undone.`}
             label="Remove"
           />
         </div>
@@ -67,7 +67,7 @@ export default function ChildCard({
         <>
           {enrolledSubjects.length === 0 ? (
             <p className="text-sm text-slate">
-              No subjects selected yet — click &quot;Edit details&quot; above to add them.
+              No subjects selected yet. Click &quot;Edit details&quot; above to add them.
             </p>
           ) : (
             <div className="grid gap-3 sm:grid-cols-3">

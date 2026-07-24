@@ -21,7 +21,7 @@ export default function AssignmentList({ assignments }: { assignments: Assignmen
   }
 
   if (assignments.length === 0) {
-    return <p className="text-sm text-slate">No practice assigned right now — great job staying caught up!</p>;
+    return <p className="text-sm text-slate">No practice assigned right now. Great job staying caught up!</p>;
   }
 
   return (

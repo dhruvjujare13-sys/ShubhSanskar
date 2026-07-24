@@ -5,16 +5,16 @@ import type { Subject } from "@/lib/types";
 // student is on instead of typing free-text topics.
 export const CURRICULUM: Record<Subject, string[]> = {
   hindi: [
-    "Letters — स्वर (vowels)",
-    "Letters — व्यंजन (consonants)",
+    "Letters: स्वर (vowels)",
+    "Letters: व्यंजन (consonants)",
     "Barakhadi",
     "Simple words",
     "Reading short sentences",
     "Writing practice",
   ],
   marathi: [
-    "Letters — स्वर (vowels)",
-    "Letters — व्यंजन (consonants)",
+    "Letters: स्वर (vowels)",
+    "Letters: व्यंजन (consonants)",
     "Barakhadi",
     "Simple words",
     "Reading short sentences",
