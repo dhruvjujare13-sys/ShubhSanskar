@@ -21,6 +21,7 @@ create table public.students (
   age integer,
   grade text not null default '',
   notes text not null default '',
+  meet_link text not null default '',
   created_at timestamptz not null default now()
 );
 create index students_parent_id_idx on public.students (parent_id);
@@ -47,6 +48,17 @@ create table public.assignments (
   created_at timestamptz not null default now()
 );
 create index assignments_student_id_idx on public.assignments (student_id);
+
+create table public.whiteboard_strokes (
+  id uuid primary key default gen_random_uuid(),
+  student_id uuid not null references public.students (id) on delete cascade,
+  author text not null check (author in ('teacher', 'student')),
+  points jsonb not null,
+  color text not null default '#4a2545',
+  width integer not null default 3,
+  created_at timestamptz not null default now()
+);
+create index whiteboard_strokes_student_id_idx on public.whiteboard_strokes (student_id);
 
 -- ---------- Auto-create a profile row whenever someone signs up ----------
 -- New signups default to role 'parent'. The teacher's own row is promoted to
@@ -96,6 +108,7 @@ alter table public.profiles enable row level security;
 alter table public.students enable row level security;
 alter table public.progress_entries enable row level security;
 alter table public.assignments enable row level security;
+alter table public.whiteboard_strokes enable row level security;
 
 -- profiles: everyone can see their own row; the teacher can see everyone's.
 create policy "profiles_select_own_or_teacher"
@@ -170,3 +183,18 @@ create policy "assignments_update_teacher_or_owning_family"
       where s.id = assignments.student_id and s.parent_id = auth.uid()
     )
   );
+
+-- whiteboard_strokes: teacher-only via the browser client (RLS). The student
+-- side goes through a server route using the service-role key instead, since
+-- students aren't Supabase Auth users — see app/api/student/whiteboard-stroke.
+create policy "whiteboard_select_teacher"
+  on public.whiteboard_strokes for select
+  using (public.is_teacher());
+
+create policy "whiteboard_insert_teacher"
+  on public.whiteboard_strokes for insert
+  with check (public.is_teacher());
+
+create policy "whiteboard_delete_teacher"
+  on public.whiteboard_strokes for delete
+  using (public.is_teacher());

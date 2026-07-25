@@ -40,6 +40,20 @@ export async function logProgress(formData: FormData) {
   revalidatePath("/dashboard/student");
 }
 
+export async function setMeetLink(formData: FormData) {
+  const supabase = await requireTeacher();
+
+  const studentId = String(formData.get("studentId") ?? "");
+  const meetLink = String(formData.get("meetLink") ?? "").trim();
+  if (!studentId) return;
+
+  await supabase.from("students").update({ meet_link: meetLink }).eq("id", studentId);
+
+  revalidatePath("/dashboard/teacher");
+  revalidatePath("/dashboard/parent");
+  revalidatePath("/dashboard/student");
+}
+
 export async function deleteStudent(formData: FormData) {
   const supabase = await requireTeacher();
 

@@ -22,7 +22,7 @@ export default async function ParentDashboardPage() {
 
   const { data: students } = (await supabase
     .from("students")
-    .select("id, parent_id, full_name, username, subjects, age, grade, notes")
+    .select("id, parent_id, full_name, username, subjects, age, grade, notes, meet_link")
     .eq("parent_id", user.id)
     .order("full_name")) as { data: Student[] | null };
 

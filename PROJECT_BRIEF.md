@@ -38,6 +38,14 @@ Students aren't Supabase Auth users — they have no email. Logging in with just
 - PIN attempts are rate-limited (lock out after 5 wrong tries for a few minutes) — implemented in-memory in `lib/rateLimit.ts`, which is a deliberate simplification: it resets if the server restarts. Fine for a small family-run tutoring business, not meant to scale past that without revisiting.
 - The student's session is a separate signed cookie (`lib/studentSession.ts`), completely independent from the parent/teacher Supabase Auth session, and only ever grants access to that one student's own records (checked server-side on every write, e.g. `app/api/student/complete-assignment/route.ts`).
 
+## Live class tools: Google Meet link + whiteboard
+
+Each student has a `meet_link` field the teacher sets from her dashboard; it shows as a "Join Class" button to that student and their parent. Alongside it, both the teacher (from a per-student "Live Session" page) and the student (on their own dashboard) get a shared freehand whiteboard, synced live via **Supabase Realtime Broadcast** and persisted to a `whiteboard_strokes` table so the board survives a refresh. The teacher can always draw; the student can only draw when the teacher toggles "Let student draw" on (that permission is a live broadcast, not persisted, so it resets to locked at the start of each session).
+
+Both the teacher and parent can also open a read-only "view as student" page for any child (`/dashboard/teacher/students/[id]` and `/dashboard/parent/students/[id]`), reusing the same `StudentDashboardContent` component the real student dashboard uses. The parent's version hides the practice games entirely and never renders a "mark complete" button, since a parent should only ever observe, never act on a child's behalf.
+
+**Known simplification:** the whiteboard's realtime channel is scoped by the student's UUID alone, without Supabase's Realtime Authorization (RLS-backed channel access control). Anyone with that UUID and the site's public anon key could theoretically join the broadcast channel directly. Low risk for a small family tutoring app where student IDs aren't guessable or exposed publicly, but worth revisiting with proper Realtime Authorization if this ever scales beyond one teacher's roster.
+
 ## Technical implementation
 
 - **Stack:** Next.js 16 (App Router) + TypeScript + Tailwind CSS v4 + Framer Motion + Supabase (Postgres + Auth), deployed free on Vercel + Supabase's free tier.

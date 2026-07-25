@@ -1,12 +1,14 @@
 "use client";
 
 import { useActionState, useState } from "react";
+import Link from "next/link";
 import { SUBJECTS, STATUSES } from "@/lib/types";
 import type { ActionState } from "@/lib/actions/auth";
 import type { Assignment, ProgressEntry, Student, Subject } from "@/lib/types";
 import { CURRICULUM } from "@/data/curriculum";
 import { updateChild, deleteChild } from "@/lib/actions/parent";
 import ConfirmDeleteForm from "@/components/dashboard/ConfirmDeleteForm";
+import JoinClassButton from "@/components/JoinClassButton";
 
 const STATUS_COLORS: Record<string, string> = {
   not_started: "bg-slate/20 text-slate",
@@ -47,6 +49,12 @@ export default function ChildCard({
           >
             {editing ? "Cancel" : "Edit details"}
           </button>
+          <Link
+            href={`/dashboard/parent/students/${student.id}`}
+            className="text-xs font-semibold text-teal underline"
+          >
+            View Dashboard
+          </Link>
           <ConfirmDeleteForm
             action={deleteChild}
             hiddenFields={{ studentId: student.id }}
@@ -55,11 +63,17 @@ export default function ChildCard({
           />
         </div>
       </div>
-      <p className="mb-4 text-sm text-slate">
+      <p className="mb-3 text-sm text-slate">
         Username: <span className="font-semibold">{student.username}</span> · PIN was set when you added them
         {student.age ? ` · Age ${student.age}` : ""}
         {student.grade ? ` · ${student.grade}` : ""}
       </p>
+
+      {student.meet_link && (
+        <div className="mb-4">
+          <JoinClassButton meetLink={student.meet_link} />
+        </div>
+      )}
 
       {editing ? (
         <EditChildForm student={student} onSaved={() => setEditing(false)} />

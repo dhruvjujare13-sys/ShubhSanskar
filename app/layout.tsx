@@ -21,7 +21,7 @@ const fredoka = Fredoka({
 });
 
 export const metadata: Metadata = {
-  title: `${siteConfig.businessName} | Hindi, Marathi & Math Tutoring`,
+  title: `${siteConfig.businessName} | Learning for All`,
   description: siteConfig.tagline,
 };
 

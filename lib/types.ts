@@ -29,6 +29,7 @@ export type Student = {
   age: number | null;
   grade: string;
   notes: string;
+  meet_link: string;
 };
 
 export type ProgressEntry = {
@@ -49,5 +50,15 @@ export type Assignment = {
   description: string;
   completed: boolean;
   completed_at: string | null;
+  created_at: string;
+};
+
+export type WhiteboardStroke = {
+  id: string;
+  student_id: string;
+  author: "teacher" | "student";
+  points: { x: number; y: number }[];
+  color: string;
+  width: number;
   created_at: string;
 };

@@ -3,12 +3,12 @@ import { getStudentSession } from "@/lib/getStudentSession";
 import { createAdminClient } from "@/lib/supabase/admin";
 import StudentSignOutButton from "@/components/dashboard/StudentSignOutButton";
 import Logo from "@/components/Logo";
-import LetterFlipGame from "@/components/practice/LetterFlipGame";
-import CountingGame from "@/components/practice/CountingGame";
 import MasteryCelebration from "@/components/practice/MasteryCelebration";
-import AssignmentList from "./AssignmentList";
+import StudentDashboardContent from "@/components/dashboard/StudentDashboardContent";
+import JoinClassButton from "@/components/JoinClassButton";
+import StudentWhiteboardPanel from "@/components/whiteboard/StudentWhiteboardPanel";
 import { SUBJECTS } from "@/lib/types";
-import type { Assignment, ProgressEntry, Student, Subject } from "@/lib/types";
+import type { Assignment, ProgressEntry, Student, Subject, WhiteboardStroke } from "@/lib/types";
 import { getRecentlyMastered } from "@/lib/mastery";
 
 export default async function StudentDashboardPage() {
@@ -17,10 +17,10 @@ export default async function StudentDashboardPage() {
 
   const supabase = createAdminClient();
 
-  const [{ data: studentRow }, { data: progress }, { data: assignments }] = await Promise.all([
+  const [{ data: studentRow }, { data: progress }, { data: assignments }, { data: strokes }] = await Promise.all([
     supabase
       .from("students")
-      .select("id, parent_id, full_name, username, subjects, age, grade, notes")
+      .select("id, parent_id, full_name, username, subjects, age, grade, notes, meet_link")
       .eq("id", session.studentId)
       .maybeSingle() as unknown as Promise<{ data: Student | null }>,
     supabase
@@ -33,13 +33,18 @@ export default async function StudentDashboardPage() {
       .select("id, student_id, subject, title, description, completed, completed_at, created_at")
       .eq("student_id", session.studentId)
       .order("created_at", { ascending: false }) as unknown as Promise<{ data: Assignment[] | null }>,
+    supabase
+      .from("whiteboard_strokes")
+      .select("id, student_id, author, points, color, width, created_at")
+      .eq("student_id", session.studentId)
+      .order("created_at", { ascending: true }) as unknown as Promise<{ data: WhiteboardStroke[] | null }>,
   ]);
 
   if (!studentRow) redirect("/student-login");
 
-  const enrolledSubjects = SUBJECTS.filter((s) => (studentRow.subjects ?? []).includes(s.value));
-  const showLetters = enrolledSubjects.some((s) => s.value === "hindi" || s.value === "marathi");
-  const showCounting = enrolledSubjects.some((s) => s.value === "math");
+  const enrolledSubjects = SUBJECTS.filter((s) => (studentRow.subjects ?? []).includes(s.value)).map(
+    (s) => s.value
+  );
 
   const allProgress = progress ?? [];
   const allAssignments = assignments ?? [];
@@ -78,40 +83,23 @@ export default async function StudentDashboardPage() {
       </header>
 
       <main className="mx-auto w-full max-w-4xl flex-1 px-4 py-8">
-        <div className="mb-6 rounded-3xl bg-marigold p-6 text-white shadow-lg">
-          <p className="text-sm font-semibold uppercase tracking-wide text-white/80">Today&apos;s Lesson</p>
-          <h1 className="font-heading text-3xl">{todaysLesson}</h1>
-        </div>
-
-        <div className="mb-6 grid gap-3 sm:grid-cols-3">
-          {enrolledSubjects.map(({ value, label }) => (
-            <div key={value} className="rounded-2xl bg-white p-4 text-center shadow border-2 border-marigold/20">
-              <p className="font-heading font-bold text-plum">{label}</p>
-              <p className="mt-1 text-2xl" title={`${masteredCountBySubject.get(value) ?? 0} mastered`}>
-                {"⭐".repeat(Math.min(masteredCountBySubject.get(value) ?? 0, 5)) || "☆"}
-              </p>
-            </div>
-          ))}
-        </div>
-
-        <div className="mb-6 rounded-3xl bg-white p-6 shadow-lg border-2 border-grass/30">
-          <h2 className="font-heading text-xl text-plum mb-3">Your practice</h2>
-          <AssignmentList assignments={openAssignments} />
-        </div>
-
-        {showLetters && (
-          <div className="mb-6 rounded-3xl bg-white p-6 shadow-lg border-2 border-teal/30">
-            <h2 className="font-heading text-xl text-plum mb-3">Letters game</h2>
-            <LetterFlipGame />
+        {studentRow.meet_link && (
+          <div className="mb-6">
+            <JoinClassButton meetLink={studentRow.meet_link} />
           </div>
         )}
 
-        {showCounting && (
-          <div className="rounded-3xl bg-white p-6 shadow-lg border-2 border-sky/30">
-            <h2 className="font-heading text-xl text-plum mb-3">Counting game</h2>
-            <CountingGame />
-          </div>
-        )}
+        <div className="mb-6">
+          <StudentWhiteboardPanel studentId={studentRow.id} initialStrokes={strokes ?? []} />
+        </div>
+
+        <StudentDashboardContent
+          mode="student"
+          enrolledSubjects={enrolledSubjects}
+          masteredCountBySubject={masteredCountBySubject}
+          openAssignments={openAssignments}
+          todaysLesson={todaysLesson}
+        />
       </main>
     </div>
   );

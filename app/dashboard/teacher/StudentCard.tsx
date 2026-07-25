@@ -1,11 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import { logProgress, addAssignment, deleteStudent } from "@/lib/actions/teacher";
+import Link from "next/link";
+import { logProgress, addAssignment, deleteStudent, setMeetLink } from "@/lib/actions/teacher";
 import { SUBJECTS, STATUSES } from "@/lib/types";
 import type { Assignment, Profile, ProgressEntry, Student, Subject } from "@/lib/types";
 import { CURRICULUM } from "@/data/curriculum";
 import ConfirmDeleteForm from "@/components/dashboard/ConfirmDeleteForm";
+import JoinClassButton from "@/components/JoinClassButton";
 
 const STATUS_COLORS: Record<string, string> = {
   not_started: "bg-slate/20 text-slate",
@@ -26,6 +28,7 @@ export default function StudentCard({
 }) {
   const [openSubject, setOpenSubject] = useState<Subject | null>(null);
   const [showAssignmentForm, setShowAssignmentForm] = useState(false);
+  const [editingMeetLink, setEditingMeetLink] = useState(false);
 
   const enrolledSubjects = SUBJECTS.filter((s) => (student.subjects ?? []).includes(s.value));
 
@@ -52,6 +55,12 @@ export default function StudentCard({
               Parent: {parent.full_name} {parent.phone && `· ${parent.phone}`}
             </p>
           )}
+          <Link
+            href={`/dashboard/teacher/students/${student.id}`}
+            className="text-xs font-semibold text-teal underline"
+          >
+            Live Session
+          </Link>
           <ConfirmDeleteForm
             action={deleteStudent}
             hiddenFields={{ studentId: student.id }}
@@ -60,6 +69,42 @@ export default function StudentCard({
           />
         </div>
       </div>
+
+      <div className="mb-4 flex flex-wrap items-center gap-3">
+        <JoinClassButton meetLink={student.meet_link} />
+        <button
+          type="button"
+          onClick={() => setEditingMeetLink((v) => !v)}
+          className="text-xs font-semibold text-teal underline"
+        >
+          {editingMeetLink ? "Cancel" : student.meet_link ? "Edit Meet link" : "Add Google Meet link"}
+        </button>
+      </div>
+
+      {editingMeetLink && (
+        <form
+          action={async (formData) => {
+            await setMeetLink(formData);
+            setEditingMeetLink(false);
+          }}
+          className="mb-4 flex flex-wrap gap-2"
+        >
+          <input type="hidden" name="studentId" value={student.id} />
+          <input
+            name="meetLink"
+            type="url"
+            defaultValue={student.meet_link}
+            placeholder="https://meet.google.com/xxx-xxxx-xxx"
+            className="min-w-0 flex-1 rounded-lg border border-marigold/40 px-2 py-1.5 text-sm"
+          />
+          <button
+            type="submit"
+            className="rounded-lg bg-teal px-4 py-1.5 text-sm font-semibold text-white hover:bg-teal-dark"
+          >
+            Save
+          </button>
+        </form>
+      )}
 
       {student.notes && (
         <p className="mb-4 rounded-xl bg-sunny/50 px-3 py-2 text-sm text-slate">

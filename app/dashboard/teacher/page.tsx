@@ -21,7 +21,7 @@ export default async function TeacherDashboardPage() {
   const [studentsRes, parentsRes, progressRes, assignmentsRes] = await Promise.all([
     supabase
       .from("students")
-      .select("id, parent_id, full_name, username, subjects, age, grade, notes")
+      .select("id, parent_id, full_name, username, subjects, age, grade, notes, meet_link")
       .order("full_name"),
     supabase.from("profiles").select("id, role, full_name, phone").eq("role", "parent"),
     supabase
