@@ -1,15 +1,25 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useRef } from "react";
+import { useRouter } from "next/navigation";
 import { addChild } from "@/lib/actions/parent";
 import type { ActionState } from "@/lib/actions/auth";
 import { SUBJECTS } from "@/lib/types";
 
 export default function AddChildForm() {
-  const [state, formAction, pending] = useActionState<ActionState, FormData>(addChild, null);
+  const router = useRouter();
+  const formRef = useRef<HTMLFormElement>(null);
+  const [state, formAction, pending] = useActionState<ActionState, FormData>(async (prevState, formData) => {
+    const result = await addChild(prevState, formData);
+    if (!result) {
+      formRef.current?.reset();
+      router.refresh();
+    }
+    return result;
+  }, null);
 
   return (
-    <form action={formAction} className="grid gap-3 sm:grid-cols-2">
+    <form ref={formRef} action={formAction} className="grid gap-3 sm:grid-cols-2">
       <input
         name="fullName"
         required

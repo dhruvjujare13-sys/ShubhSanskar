@@ -1,6 +1,7 @@
 "use client";
 
 import { useActionState, useState } from "react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { SUBJECTS, STATUSES } from "@/lib/types";
 import type { ActionState } from "@/lib/actions/auth";
@@ -146,9 +147,13 @@ export default function ChildCard({
 }
 
 function EditChildForm({ student, onSaved }: { student: Student; onSaved: () => void }) {
+  const router = useRouter();
   const [state, formAction, pending] = useActionState<ActionState, FormData>(async (prev, formData) => {
     const result = await updateChild(prev, formData);
-    if (!result) onSaved();
+    if (!result) {
+      onSaved();
+      router.refresh();
+    }
     return result;
   }, null);
 
