@@ -20,11 +20,15 @@ export default async function ParentDashboardPage() {
     .maybeSingle<Profile>();
   if (profile?.role === "teacher") redirect("/dashboard/teacher");
 
-  const { data: students } = (await supabase
+  const { data: students, error: studentsError } = (await supabase
     .from("students")
     .select("id, parent_id, full_name, username, subjects, age, grade, notes, meet_link")
     .eq("parent_id", user.id)
-    .order("full_name")) as { data: Student[] | null };
+    .order("full_name")) as { data: Student[] | null; error: { message: string } | null };
+
+  if (studentsError) {
+    console.error("Failed to load students:", studentsError.message);
+  }
 
   const studentIds = (students ?? []).map((s) => s.id);
 
@@ -56,6 +60,12 @@ export default async function ParentDashboardPage() {
         <p className="mb-6 text-slate">
           Track progress, see assignments, and message {siteConfig.teacherName} anytime.
         </p>
+
+        {studentsError && (
+          <p className="mb-6 rounded-xl bg-blush px-4 py-3 text-sm text-plum">
+            Couldn&apos;t load your children: {studentsError.message}
+          </p>
+        )}
 
         <div className="mb-6 grid gap-6">
           {students?.map((student) => (

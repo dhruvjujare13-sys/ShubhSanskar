@@ -39,6 +39,10 @@ export default async function TeacherDashboardPage() {
   const progress = progressRes.data as ProgressEntry[] | null;
   const assignments = assignmentsRes.data as Assignment[] | null;
 
+  if (studentsRes.error) {
+    console.error("Failed to load students:", studentsRes.error.message);
+  }
+
   const parentsById = new Map((parents ?? []).map((p) => [p.id, p]));
 
   return (
@@ -50,6 +54,12 @@ export default async function TeacherDashboardPage() {
           {students?.length ?? 0} student{(students?.length ?? 0) === 1 ? "" : "s"} across{" "}
           {parentsById.size} famil{parentsById.size === 1 ? "y" : "ies"}.
         </p>
+
+        {studentsRes.error && (
+          <p className="mb-6 rounded-xl bg-blush px-4 py-3 text-sm text-plum">
+            Couldn&apos;t load students: {studentsRes.error.message}
+          </p>
+        )}
 
         {(!students || students.length === 0) && (
           <p className="rounded-2xl bg-white p-6 text-slate shadow border-2 border-marigold/30">
