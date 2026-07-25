@@ -20,7 +20,7 @@ export default async function StudentDashboardPage() {
   const [{ data: studentRow }, { data: progress }, { data: assignments }, { data: strokes }] = await Promise.all([
     supabase
       .from("students")
-      .select("id, parent_id, full_name, username, subjects, age, grade, notes, meet_link")
+      .select("id, parent_id, full_name, username, subjects, age, grade, notes, meet_link, math_topics")
       .eq("id", session.studentId)
       .maybeSingle() as unknown as Promise<{ data: Student | null }>,
     supabase

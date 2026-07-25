@@ -6,8 +6,10 @@ import { createClient } from "@/lib/supabase/server";
 import type { ActionState } from "@/lib/actions/auth";
 import { SUBJECTS } from "@/lib/types";
 import type { Subject } from "@/lib/types";
+import { MATH_TOPIC_OPTIONS } from "@/data/curriculum";
 
 const SUBJECT_VALUES = new Set(SUBJECTS.map((s) => s.value));
+const MATH_TOPIC_VALUES = new Set(MATH_TOPIC_OPTIONS);
 
 export async function addChild(_prevState: ActionState, formData: FormData): Promise<ActionState> {
   const supabase = await createClient();
@@ -23,6 +25,7 @@ export async function addChild(_prevState: ActionState, formData: FormData): Pro
   const grade = String(formData.get("grade") ?? "").trim();
   const notes = String(formData.get("notes") ?? "").trim();
   const subjects = formData.getAll("subjects").map(String).filter((s): s is Subject => SUBJECT_VALUES.has(s as Subject));
+  const mathTopics = formData.getAll("mathTopics").map(String).filter((t) => MATH_TOPIC_VALUES.has(t));
 
   if (!fullName || !/^[a-z0-9_]{3,20}$/.test(username)) {
     return {
@@ -34,6 +37,9 @@ export async function addChild(_prevState: ActionState, formData: FormData): Pro
   }
   if (subjects.length === 0) {
     return { error: "Pick at least one subject for your child to learn." };
+  }
+  if (subjects.includes("math") && mathTopics.length === 0) {
+    return { error: "Pick at least one math topic for your child to work on." };
   }
   const age = ageRaw ? Number(ageRaw) : null;
   if (ageRaw && (!Number.isInteger(age) || age! < 1 || age! > 100)) {
@@ -51,6 +57,7 @@ export async function addChild(_prevState: ActionState, formData: FormData): Pro
     age,
     grade,
     notes,
+    math_topics: subjects.includes("math") ? mathTopics : [],
   });
 
   if (error) {
@@ -79,12 +86,16 @@ export async function updateChild(_prevState: ActionState, formData: FormData): 
   const grade = String(formData.get("grade") ?? "").trim();
   const notes = String(formData.get("notes") ?? "").trim();
   const subjects = formData.getAll("subjects").map(String).filter((s): s is Subject => SUBJECT_VALUES.has(s as Subject));
+  const mathTopics = formData.getAll("mathTopics").map(String).filter((t) => MATH_TOPIC_VALUES.has(t));
 
   if (!studentId || !fullName) {
     return { error: "Something went wrong. Please try again." };
   }
   if (subjects.length === 0) {
     return { error: "Pick at least one subject for your child to learn." };
+  }
+  if (subjects.includes("math") && mathTopics.length === 0) {
+    return { error: "Pick at least one math topic for your child to work on." };
   }
   const age = ageRaw ? Number(ageRaw) : null;
   if (ageRaw && (!Number.isInteger(age) || age! < 1 || age! > 100)) {
@@ -93,7 +104,14 @@ export async function updateChild(_prevState: ActionState, formData: FormData): 
 
   const { error } = await supabase
     .from("students")
-    .update({ full_name: fullName, age, grade, notes, subjects })
+    .update({
+      full_name: fullName,
+      age,
+      grade,
+      notes,
+      subjects,
+      math_topics: subjects.includes("math") ? mathTopics : [],
+    })
     .eq("id", studentId)
     .eq("parent_id", user.id);
 

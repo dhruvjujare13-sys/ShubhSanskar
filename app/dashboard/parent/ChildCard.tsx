@@ -6,7 +6,7 @@ import Link from "next/link";
 import { SUBJECTS, STATUSES } from "@/lib/types";
 import type { ActionState } from "@/lib/actions/auth";
 import type { Assignment, ProgressEntry, Student, Subject } from "@/lib/types";
-import { CURRICULUM } from "@/data/curriculum";
+import { CURRICULUM, MATH_TOPIC_OPTIONS } from "@/data/curriculum";
 import { updateChild, deleteChild } from "@/lib/actions/parent";
 import ConfirmDeleteForm from "@/components/dashboard/ConfirmDeleteForm";
 import JoinClassButton from "@/components/JoinClassButton";
@@ -88,6 +88,8 @@ export default function ChildCard({
             <div className="grid gap-3 sm:grid-cols-3">
               {enrolledSubjects.map(({ value, label }) => {
                 const latest = latestBySubject.get(value);
+                const topics =
+                  value === "math" && student.math_topics?.length ? student.math_topics : CURRICULUM[value];
                 return (
                   <div key={value} className="rounded-2xl border-2 border-sunny bg-sunny/40 p-3">
                     <div className="mb-1 flex items-center justify-between">
@@ -106,7 +108,7 @@ export default function ChildCard({
                       What they&apos;ll learn
                     </p>
                     <ol className="space-y-0.5 text-xs text-slate">
-                      {CURRICULUM[value].map((stage) => {
+                      {topics.map((stage) => {
                         const status = statusByTopic.get(`${value}:${stage}`);
                         return (
                           <li
@@ -148,6 +150,7 @@ export default function ChildCard({
 
 function EditChildForm({ student, onSaved }: { student: Student; onSaved: () => void }) {
   const router = useRouter();
+  const [wantsMath, setWantsMath] = useState((student.subjects ?? []).includes("math"));
   const [state, formAction, pending] = useActionState<ActionState, FormData>(async (prev, formData) => {
     const result = await updateChild(prev, formData);
     if (!result) {
@@ -193,6 +196,7 @@ function EditChildForm({ student, onSaved }: { student: Student; onSaved: () => 
                 name="subjects"
                 value={s.value}
                 defaultChecked={(student.subjects ?? []).includes(s.value)}
+                onChange={s.value === "math" ? (e) => setWantsMath(e.target.checked) : undefined}
                 className="h-4 w-4 accent-teal"
               />
               {s.label}
@@ -200,6 +204,26 @@ function EditChildForm({ student, onSaved }: { student: Student; onSaved: () => 
           ))}
         </div>
       </fieldset>
+
+      {wantsMath && (
+        <fieldset className="sm:col-span-2 rounded-xl border-2 border-sky/40 bg-sky/5 p-3">
+          <legend className="mb-1 px-1 text-sm font-semibold text-plum">Which math topics?</legend>
+          <div className="grid gap-2 sm:grid-cols-2">
+            {MATH_TOPIC_OPTIONS.map((topic) => (
+              <label key={topic} className="flex items-center gap-2 text-sm text-slate">
+                <input
+                  type="checkbox"
+                  name="mathTopics"
+                  value={topic}
+                  defaultChecked={(student.math_topics ?? []).includes(topic)}
+                  className="h-4 w-4 accent-sky"
+                />
+                {topic}
+              </label>
+            ))}
+          </div>
+        </fieldset>
+      )}
 
       <textarea
         name="notes"

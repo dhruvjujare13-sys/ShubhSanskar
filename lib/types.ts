@@ -30,6 +30,7 @@ export type Student = {
   grade: string;
   notes: string;
   meet_link: string;
+  math_topics: string[];
 };
 
 export type ProgressEntry = {

@@ -30,7 +30,7 @@ export default async function TeacherStudentViewPage({
   const [studentRes, progressRes, assignmentsRes, strokesRes] = await Promise.all([
     supabase
       .from("students")
-      .select("id, parent_id, full_name, username, subjects, age, grade, notes, meet_link")
+      .select("id, parent_id, full_name, username, subjects, age, grade, notes, meet_link, math_topics")
       .eq("id", studentId)
       .maybeSingle(),
     supabase

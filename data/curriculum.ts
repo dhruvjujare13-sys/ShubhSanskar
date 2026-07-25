@@ -21,11 +21,25 @@ export const CURRICULUM: Record<Subject, string[]> = {
     "Writing practice",
   ],
   math: [
-    "Counting 1-20",
-    "Number recognition",
-    "Simple addition",
-    "Simple subtraction",
-    "Shapes & patterns",
-    "Word problems",
+    "Elementary math (counting, addition, subtraction)",
+    "Multiplication & division",
+    "Fractions & decimals",
+    "Pre-algebra",
+    "Algebra 1",
+    "Algebra 2",
+    "Geometry",
+    "Trigonometry",
+    "Statistics & probability",
+    "Precalculus & calculus",
+    "Test prep (SAT/ACT, etc.)",
+    "Help with school-given homework",
   ],
 };
+
+// Math spans such a wide age/level range that every family needs to pick
+// which of the above topics actually apply to their child, rather than
+// showing the full list (which would otherwise start everyone at
+// "elementary math" regardless of age). Hindi/Marathi don't need this since
+// their letters -> barakhadi -> reading path is the same starting point for
+// every beginner.
+export const MATH_TOPIC_OPTIONS = CURRICULUM.math;

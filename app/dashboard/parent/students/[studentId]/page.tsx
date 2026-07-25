@@ -31,7 +31,7 @@ export default async function ParentStudentViewPage({
   // guards against a parent guessing another family's student id.
   const { data: student } = (await supabase
     .from("students")
-    .select("id, parent_id, full_name, username, subjects, age, grade, notes, meet_link")
+    .select("id, parent_id, full_name, username, subjects, age, grade, notes, meet_link, math_topics")
     .eq("id", studentId)
     .eq("parent_id", user.id)
     .maybeSingle()) as { data: Student | null };

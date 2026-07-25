@@ -119,6 +119,8 @@ export default function StudentCard({
         <div className="grid gap-3 sm:grid-cols-3">
           {enrolledSubjects.map(({ value, label }) => {
             const latest = latestBySubject.get(value);
+            const topicOptions =
+              value === "math" && student.math_topics?.length ? student.math_topics : CURRICULUM[value];
             return (
               <div key={value} className="rounded-2xl border-2 border-sunny bg-sunny/40 p-3">
                 <div className="mb-2 flex items-center justify-between">
@@ -152,7 +154,7 @@ export default function StudentCard({
                     <input type="hidden" name="subject" value={value} />
                     <select name="topic" required className="w-full rounded-lg border border-marigold/40 px-2 py-1 text-sm">
                       <option value="">Curriculum stage…</option>
-                      {CURRICULUM[value].map((stage) => (
+                      {topicOptions.map((stage) => (
                         <option key={stage} value={stage}>
                           {stage}
                         </option>

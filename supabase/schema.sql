@@ -22,6 +22,7 @@ create table public.students (
   grade text not null default '',
   notes text not null default '',
   meet_link text not null default '',
+  math_topics text[] not null default '{}',
   created_at timestamptz not null default now()
 );
 create index students_parent_id_idx on public.students (parent_id);
