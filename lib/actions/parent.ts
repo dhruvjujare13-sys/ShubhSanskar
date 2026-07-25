@@ -1,7 +1,7 @@
 "use server";
 
 import bcrypt from "bcryptjs";
-import { revalidatePath } from "next/cache";
+import { revalidatePath, refresh } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
 import type { ActionState } from "@/lib/actions/auth";
 import { SUBJECTS } from "@/lib/types";
@@ -62,6 +62,7 @@ export async function addChild(_prevState: ActionState, formData: FormData): Pro
 
   revalidatePath("/dashboard/parent");
   revalidatePath("/dashboard/teacher");
+  refresh();
   return null;
 }
 
@@ -103,6 +104,7 @@ export async function updateChild(_prevState: ActionState, formData: FormData): 
   revalidatePath("/dashboard/parent");
   revalidatePath("/dashboard/teacher");
   revalidatePath("/dashboard/student");
+  refresh();
   return null;
 }
 
@@ -120,4 +122,5 @@ export async function deleteChild(formData: FormData) {
 
   revalidatePath("/dashboard/parent");
   revalidatePath("/dashboard/teacher");
+  refresh();
 }

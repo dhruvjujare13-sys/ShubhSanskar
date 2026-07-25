@@ -1,6 +1,6 @@
 "use server";
 
-import { revalidatePath } from "next/cache";
+import { revalidatePath, refresh } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
 
 async function requireTeacher() {
@@ -38,6 +38,7 @@ export async function logProgress(formData: FormData) {
   revalidatePath("/dashboard/teacher");
   revalidatePath("/dashboard/parent");
   revalidatePath("/dashboard/student");
+  refresh();
 }
 
 export async function setMeetLink(formData: FormData) {
@@ -52,6 +53,7 @@ export async function setMeetLink(formData: FormData) {
   revalidatePath("/dashboard/teacher");
   revalidatePath("/dashboard/parent");
   revalidatePath("/dashboard/student");
+  refresh();
 }
 
 export async function deleteStudent(formData: FormData) {
@@ -64,6 +66,7 @@ export async function deleteStudent(formData: FormData) {
 
   revalidatePath("/dashboard/teacher");
   revalidatePath("/dashboard/parent");
+  refresh();
 }
 
 export async function addAssignment(formData: FormData) {
@@ -86,4 +89,5 @@ export async function addAssignment(formData: FormData) {
   revalidatePath("/dashboard/teacher");
   revalidatePath("/dashboard/parent");
   revalidatePath("/dashboard/student");
+  refresh();
 }
