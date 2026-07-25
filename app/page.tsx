@@ -61,12 +61,15 @@ export default function HomePage() {
         </section>
 
         {/* About */}
-        <section className="mx-auto max-w-3xl px-4 py-14 text-center">
-          <h2 className="font-heading text-3xl text-plum mb-3">Meet {siteConfig.teacherName}</h2>
-          <p className="text-slate">
-            {siteConfig.teacherName} teaches Hindi and Marathi from the very basics, starting with letters and
-            barakhadi, plus math, all online. Lessons welcome everyone, beginner or returning learner.
-          </p>
+        <section className="px-4 py-16">
+          <div className="relative mx-auto max-w-xl -rotate-2 rounded-sm bg-note p-8 text-center shadow-xl transition hover:rotate-0">
+            <div className="absolute left-1/2 top-0 h-5 w-5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-plum shadow-md" />
+            <h2 className="font-heading text-3xl text-plum mb-3">Meet {siteConfig.teacherName}</h2>
+            <p className="text-slate">
+              {siteConfig.teacherName} teaches Hindi and Marathi from the very basics, starting with letters and
+              barakhadi, plus math, all online. Lessons welcome everyone, beginner or returning learner.
+            </p>
+          </div>
         </section>
 
         {/* Subjects */}
@@ -84,7 +87,7 @@ export default function HomePage() {
                 <h3 className="font-heading text-xl font-bold text-plum">{card.title}</h3>
                 <p className="mt-2 text-sm text-slate">{card.blurb}</p>
                 <Link
-                  href={`/learn/${card.slug}`}
+                  href={`/available-classes#${card.slug}`}
                   className="mt-4 inline-block rounded-full border-2 border-plum px-4 py-1.5 text-sm font-heading font-bold text-plum hover:bg-plum hover:text-white"
                 >
                   Click to Learn More

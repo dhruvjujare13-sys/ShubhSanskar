@@ -11,6 +11,7 @@
   --color-slate: #5b5563;
   --color-sky: #4fa8e0;
   --color-grass: #6fbf73;
+  --color-note: #fde68a;
 }
 
 @theme inline {
@@ -24,6 +25,7 @@
   --color-slate: var(--color-slate);
   --color-sky: var(--color-sky);
   --color-grass: var(--color-grass);
+  --color-note: var(--color-note);
   --font-heading: var(--font-baloo);
   --font-body: var(--font-nunito);
   --font-logo: var(--font-fredoka);
